@@ -1,0 +1,82 @@
+// Learning from CPPnuts youtube channel
+// Thanks Rupesh if you are seeing this.
+#include<iostream>
+#include<chrono>
+#include<algorithm>
+#include <thread>
+
+using namespace std;
+using namespace std::chrono;
+typedef long long int  ull;
+
+void find_even(ull start, ull end, ull& even_ctr)
+{
+
+	for (ull i = start; i <= end; i++)
+	{
+		if ((i & 1) == 0)
+			even_ctr++;
+	}
+
+
+}
+
+void find_odd(ull start, ull end, ull& odd_ctr)
+{
+
+	for (ull i = start; i <= end; i++)
+	{
+		if ((i & 1) == 1)
+			odd_ctr++;
+	}
+
+
+}
+
+int main()
+{
+	ull start = 0, end = 2500000000;
+	
+	ull even_ctr = 0;
+	ull odd_ctr = 0;
+
+	auto startTime = high_resolution_clock::now();
+	
+
+	std::thread t1(find_even, std::ref(start), std::ref(end), std::ref(even_ctr));
+	std::thread t2(find_odd, std::ref(start), std::ref(end), std::ref (odd_ctr));
+
+	t1.join();
+	t2.join();
+	
+
+
+	auto stopTime = high_resolution_clock::now();
+	auto duration = duration_cast<microseconds>(stopTime - startTime);
+	cout << "With Multithreading !\n "; 
+	cout << "OddSum : " << odd_ctr << endl;
+	cout << "EvenSum : " << even_ctr << endl;
+
+	cout << "Sec: " << duration.count() / 1000000 << endl;
+
+	even_ctr = 0; 
+	odd_ctr = 0;
+
+	// // WITHOUT THREAD
+
+	 startTime = high_resolution_clock::now(); 
+
+	find_even(start, end, even_ctr);
+	find_odd(start,  end,  odd_ctr);
+
+	 stopTime = high_resolution_clock::now();
+	 duration = duration_cast<microseconds>(stopTime - startTime);
+
+	cout << "OddSum : " << odd_ctr << endl;
+	cout << "EvenSum : " << even_ctr << endl;
+
+	cout << "Sec: " << duration.count() / 1000000 << endl;
+
+
+	return 0;
+}
