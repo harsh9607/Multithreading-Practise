@@ -1,0 +1,29 @@
+// There are multiple ways of thread creation in this world; <actually 5> 
+// Lets try few  of them say - Function pointer & Lambda function
+#include<thread>
+#include<iostream>
+using namespace std;
+
+void fun(int x)
+{
+	while (x-- > 0) // x -- greater than zero 
+	{
+		cout << x << endl;
+	}
+}
+
+int main()
+{
+	// Type 1)  Using a function pointer 
+	std::thread t1(fun, 1100000);
+	std::thread t2(fun, 1200000);
+	t1.join();
+	t2.join();
+
+	// Type 2 Lamba function 
+	auto printer = [](int x) { while (x-- > 0) { cout << x << endl; }};
+	std::thread T(printer, 50);
+	T.join();
+
+	return 0;
+}
