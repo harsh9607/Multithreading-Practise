@@ -1,0 +1,34 @@
+// Creating Multiple threads using vector 
+// Running of Microsoft Visual Studio
+
+#include<thread>
+#include<vector>
+#include<iostream>
+using namespace std;
+
+
+int main() {
+	int x = 1000;
+	static int k = 0; 
+	auto lambda = [](int x) {
+		k++;
+		std::cout << "\nWe are in thread # " << std::this_thread::get_id() << endl;
+		std::cout << "\nValue passed was = " << x << endl;
+	};
+
+	vector<std::thread>  myThreads;
+
+	for (int i = 0; i < x; i++)
+	{
+		myThreads.push_back(std::thread(std::ref(lambda), i));
+		
+	}
+
+	for (int i = 0; i < x; i++)
+	{
+		myThreads[i].join();
+	}
+	cout << " lambda Function was called " << k << " times\n";
+	return 0;
+
+}
