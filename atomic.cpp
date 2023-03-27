@@ -11,7 +11,7 @@
 using namespace std;
 
 
-static atomic<int> k = 0;
+static atomic_int k = 0;
 
 void incrementor()
 {
